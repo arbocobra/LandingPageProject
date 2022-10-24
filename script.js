@@ -1,4 +1,5 @@
 import { orderedID, orderedTags } from './altTags.js';
+import tagData from './tagData.js';
 
 window.addEventListener('load', (event) => {
     displayTags();
@@ -10,10 +11,11 @@ const metUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/objects
 const getTags = () => {
     const tagArray = [];
     do {
-        const tagNum = Math.floor(Math.random() * orderedID.length);
-        const tag = orderedTags[tagNum];
-        const id = orderedID[tagNum];
-        if (!tagArray.includes(tag)) {
+        const tagNum = Math.floor(Math.random() * tagData.length);
+        const tag = tagData[tagNum].tag;
+        const id = tagData[tagNum].id;
+        let exists = tagArray.find(el => el[0] === tag);
+        if (!exists) {
             tagArray.push([tag, id]);
         }  
     } while (tagArray.length < 3)
@@ -21,7 +23,7 @@ const getTags = () => {
 }
 
 const displayTags = () => {
-    const root = document.getElementById('app');
+    const root = document.getElementById('select');
     root.innerHTML = '';
     const form = document.createElement('form');
     root.appendChild(form);
@@ -72,4 +74,19 @@ const renderResponse = (val) => {
         background.classList.toggle('tall');
     } else {background.classList.toggle('wide');}
     background.style.backgroundImage = `url(${val.primaryImage})`;
+
+    displayHomepage();
+}
+
+const displayHomepage = () => {
+    const tag = document.getElementById('select');
+    const tagSelect = tag.children;
+    tag.remove();
+    const divArray = ['reselect', 'weather', 'todo', 'right', 'quote'];
+    divArray.forEach(el => {
+        let div = document.createElement('div');
+        div.setAttribute('class', el);
+        let app = document.getElementById('app');
+        app.appendChild(div);
+    })
 }
