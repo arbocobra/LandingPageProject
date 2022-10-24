@@ -52,7 +52,6 @@ const getArt = async (value, id) => {
         const response = await fetch(endpoint, {cache: 'no-cache'});
         if (response.ok) {
             const jsonResponse = await response.json();
-            // console.log(jsonResponse)
             renderResponse(jsonResponse)
         }
     } catch (error) {
@@ -62,19 +61,6 @@ const getArt = async (value, id) => {
 
 const renderResponse = (val) => {
     const background = document.getElementById('background');
-    // let imageLg = new Image();
-    // imageLg.src = val.primaryImage;
-    // // imageLg.setAttribute('class', hidden);
-    // imageLg.onload = () => {
-    //     console.log(imageLg.width, imageLg.height)
-    // }
-
-    // const root = document.getElementById('background');
-    // root.appendChild(imageLg);
-    
-
-    // console.log(val)
-    // console.log(val.measurements)
     let imgDimensions;
     if (val.measurements.length > 1) {
         const imgFilter = val.measurements.filter(el => el.elementName == 'Overall')
@@ -85,16 +71,5 @@ const renderResponse = (val) => {
     if(imgDimensions.elementMeasurements.Height > imgDimensions.elementMeasurements.width || !imgDimensions.elementMeasurements.width) {
         background.classList.toggle('tall');
     } else {background.classList.toggle('wide');}
-    // console.log(imgDimensions)
-
-
-
-    
-    
-    
     background.style.backgroundImage = `url(${val.primaryImage})`;
-
-    // const root = document.getElementById('display');
-    // root.innerHTML = `<img src=${val.primaryImageSmall}>`
-    // // root.innerHTML = `<p>Title: ${val.title}</p><p>By: ${val.artistDisplayName}</p>`;
 }
